@@ -1,5 +1,6 @@
 package br.com.talitafavore.rentacar.controller;
 
+import br.com.talitafavore.rentacar.dto.CityDto;
 import br.com.talitafavore.rentacar.model.CityModel;
 import br.com.talitafavore.rentacar.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,21 +18,21 @@ public class CityController {
     private CityService service;
 
     @PostMapping //método POST
-    public ResponseEntity<CityModel> create(@RequestBody CityModel cityModel) {
-        CityModel model = service.create(cityModel);
-        return new ResponseEntity<>(model, HttpStatus.CREATED);
+    public ResponseEntity<CityDto> create(@RequestBody CityDto cityDto) {
+        CityDto city = service.create(cityDto);
+        return new ResponseEntity<>(city, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}") //método GET
-    public ResponseEntity<CityModel> findById(@PathVariable(name = "id") long id) {
-        CityModel model = service.findByID(id);
-        return new ResponseEntity<>(model, HttpStatus.OK);
+    public ResponseEntity<CityDto> findById(@PathVariable(name = "id") long id) {
+        CityDto city = service.findByID(id);
+        return new ResponseEntity<>(city, HttpStatus.OK);
     }
 
     @PutMapping //método PUT
-    public ResponseEntity<CityModel> update(@RequestBody CityModel cityModel) {
-        CityModel model = service.update(cityModel);
-        return new ResponseEntity<>(model, HttpStatus.OK);
+    public ResponseEntity<CityDto> update(@RequestBody CityDto cityDto) {
+        CityDto city = service.update(cityDto);
+        return new ResponseEntity<>(city, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}") //método DELETE
@@ -41,9 +42,21 @@ public class CityController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CityModel>>findAll() {
+    public ResponseEntity<List<CityDto>>findAll() {
         var list = service.findAll();
-        return new ResponseEntity<List<CityModel>>(list, HttpStatus.OK);
+        return new ResponseEntity<List<CityDto>>(list, HttpStatus.OK);
+    }
+
+    @GetMapping("/find/name/{name}")
+    public ResponseEntity<List<CityDto>>findByName(@PathVariable(name = "name") String name) {
+        var cities = service.findByName(name);
+        return new ResponseEntity<>(cities, HttpStatus.OK);
+    }
+
+    @GetMapping("/find/state/{state}")
+    public ResponseEntity<List<CityDto>>findByState(@PathVariable(name = "state") String state) {
+        var states = service.findByState(state);
+        return new ResponseEntity<>(states, HttpStatus.OK);
     }
 
 }
